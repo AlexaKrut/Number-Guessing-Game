@@ -2,76 +2,74 @@ import random
 import time
 
 def get_level():
-    levels = {1: "Easy", 2: "Medium", 3: "Hard"}
+    levels = {1: "Легкий", 2: "Средний", 3: "Сложный"}
     chances = {1: 10, 2: 5, 3: 3}
     
     while True:
-        print("Please select the difficulty level:")
-        print("1. Easy (10 chances)")
-        print("2. Medium (5 chances)")
-        print("3. Hard (3 chances)")
+        print("Пожалуйста, выберите уровень сложности:")
+        print("1. Легкий (10 попыток)")
+        print("2. Средний (5 попыток)")
+        print("3. Сложный (3 попытки)")
         print()
-        level = int(input("Enter your choice: "))
+        level = int(input("Введите ваш выбор: "))
         
         if level in levels:
             return levels[level], chances[level]
         else:
-            print("Ooops... There's no such variant. Please, try again.")
+            print("Упс... Такого варианта нет. Пожалуйста, попробуйте снова.")
 
 def play_game(secret_number, attempts):
     count_attempts = 0
     start_time = time.time()
 
     while attempts > 0:
-        guess_number = int(input("Enter your guess: "))
+        guess_number = int(input("Введите вашу догадку: "))
         count_attempts += 1
         
         if guess_number == secret_number:
-            print(f"Congratulations! You guessed the correct number in {count_attempts} attempts.")
+            print(f"Поздравляем! Вы угадали правильное число за {count_attempts} попыток.")
             end_time = time.time()
             execution_time = end_time - start_time
-            print(f"It took {execution_time:.2f} seconds.")
-            return count_attempts  # Возвращаем количество попыток
+            print(f"Это заняло {execution_time:.2f} секунд.")
+            return count_attempts
         elif guess_number < secret_number:
-            print(f"Incorrect! The number is greater than {guess_number}.")
+            print(f"Неправильно! Число больше, чем {guess_number}.")
         else:
-            print(f"Incorrect! The number is less than {guess_number}.")
+            print(f"Неправильно! Число меньше, чем {guess_number}.")
         
         attempts -= 1
 
-    print("The Game is Over. You are out of chances.")
+    print("Игра окончена. У вас закончились попытки.")
     print()
-    return None  # Возвращаем None, если не угадали
+    return None
 
 def quit_the_game():
-    print("Would you like to continue? yes or no")
+    print("Хотите продолжить? да или нет")
     answer = input()
-    return answer.lower() == 'yes'
+    return answer.lower() == 'да'
 
 def main():
-    print("Welcome to the Number Guessing Game!")
-    print("I'm thinking of a number between 1 and 100.")
+    print("Добро пожаловать в игру 'Угадай число'!")
+    print("Я думаю о числе от 1 до 100.")
     print()
     
-    best_attempts = float('inf')  # Инициализируем лучший результат как бесконечность
+    best_attempts = float('inf')
 
     while True:
         level, attempts = get_level()
-        print(f"Great! You have selected the {level} difficulty level.")
-        print("Let's start the game!")
+        print(f"Отлично! Вы выбрали уровень сложности {level}.")
+        print("Давайте начнем игру!")
         print()
 
         secret_number = random.randint(1, 100)
         current_attempts = play_game(secret_number, attempts)
 
-        # Проверяем, угадал ли игрок число
         if current_attempts is not None:
-            # Если угадал, проверяем, обновляется ли лучший результат
             if current_attempts < best_attempts:
                 best_attempts = current_attempts
-                print(f"New best result! You guessed the number in {best_attempts} attempts.")
+                print(f"Новый лучший результат! Вы угадали число за {best_attempts} попыток.")
             else:
-                print(f"Your best result remains {best_attempts} attempts.")
+                print(f"Ваш лучший результат остается {best_attempts} попыток.")
 
         if not quit_the_game():
             break
